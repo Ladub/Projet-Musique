@@ -9,7 +9,7 @@ print(mido.get_output_names())
 out_names=mido.get_output_names()
 outport = mido.open_output(out_names[0])
 
-############alex
+############alexnathan
 # PLAY
 def play():
     chaine=saisie.get(1.0, tk.END)
