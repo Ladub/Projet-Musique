@@ -9,22 +9,19 @@ seuil=30
 
 capture=cv2.VideoCapture(0)
 ret,image=capture.read()
-print(image)
 
-previous=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY).astype(np.int16)[::2,::2]
+previous=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY).astype(np.int16)
 somme_points=previous.shape[0]*previous.shape[1]
-print("previous.shape[0] :",previous.shape[0])
-print("previous.shape[1] :",previous.shape[1])
+
 x_compare=1
 while(capture.isOpened()):
     ret,current_bgr=capture.read()
     if ret:
         current_gray = cv2.cvtColor(current_bgr, cv2.COLOR_BGR2GRAY).astype(np.int16)
-        tmp=current_gray[::2,::2]
-        print("nb pixel : ",tmp.size)
-        result = np.abs(tmp - previous)
+
+        result = np.abs(current_gray - previous)
         result = np.where(result > seuil, 1, 0).astype(np.uint8)
-        previous = np.copy(tmp)
+        previous = np.copy(current_gray)
         somme_points_blancs = np.sum(result)
         taux = float(somme_points_blancs) / float(somme_points)
         if taux > tx:
